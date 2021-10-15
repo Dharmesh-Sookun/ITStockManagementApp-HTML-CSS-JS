@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+      "target": "es6",
+      "watch": true,
+      "lib": ["dom", "es2017"],
+      "outDir": "javascript"
+  },
+
+  "include": [
+    "typescript/*"
+  ]
+}

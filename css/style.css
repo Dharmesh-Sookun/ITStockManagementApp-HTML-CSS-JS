@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+* {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  --primary-colour: #f6f6f8;
+  --secondary-colour: #e3e3e3;
+  --accent-colour: #c60021; }
+
+body {
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--primary-colour); }
+
+li {
+  list-style: none; }
+
+a {
+  text-decoration: none; }
+
+.header {
+  height: 64px;
+  background-color: var(--secondary-colour); }
+  .header nav {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; }
+    .header nav .nav-logo {
+      font-size: 1.5rem;
+      color: black; }
+      .header nav .nav-logo:hover {
+        cursor: pointer;
+        color: var(--accent-colour); }
+    .header nav ul {
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center; }
+      .header nav ul #assign-stock {
+        color: var(--accent-colour); }
+      .header nav ul li {
+        margin-right: 10px; }
+        .header nav ul li:hover {
+          cursor: pointer;
+          color: var(--accent-colour); }
+
+.generate-report {
+  display: none; }
+
+.assign-stock {
+  height: calc(100vh - 64px); }
+
+.section-title {
+  text-align: center;
+  margin: 10px 0; }
+
+.container {
+  margin: 50px auto;
+  display: flex;
+  justify-content: center;
+  max-width: 1500px; }
+
+.table {
+  width: 100%;
+  border: 1px solid black; }
+  .table .table-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 2fr;
+    width: 100%;
+    background: black;
+    padding: 36px 18px; }
+    .table .table-header .header-item {
+      text-transform: uppercase; }
+      .table .table-header .header-item .header-text {
+        color: white; }
+
+.table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 2fr;
+  width: 100%;
+  padding: 36px 18px; }
+
+.assign-equipment-btn,
+.view-assign-equipment-btn {
+  padding: 20px;
+  margin-top: -20px;
+  margin-right: 10px;
+  color: white;
+  border-radius: 10px; }
+
+.assign-equipment-btn {
+  background: #007bff; }
+
+.view-assign-equipment-btn {
+  background: #28a745; }
