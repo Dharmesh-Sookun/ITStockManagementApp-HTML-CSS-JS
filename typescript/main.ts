@@ -108,12 +108,12 @@ generateReportLiEl.addEventListener("click", ()=>{
 employees.forEach(employee => {
     employeeTableContent.innerHTML += `
             <div class="table-row">
-            <div class="table-data">${employee.id}</div>
-            <div class="table-data">${employee.firstName}</div>
-            <div class="table-data">${employee.middleName}</div>
-            <div class="table-data">${employee.lastName}</div>
-            <div class="table-data">${employee.address}</div>
-            <div class="table-data">
+            <div id="employeeID">${employee.id}</div>
+            <div>${employee.firstName}</div>
+            <div>${employee.middleName}</div>
+            <div>${employee.lastName}</div>
+            <div>${employee.address}</div>
+            <div>
                 <button class="assign-equipment-btn">Assign Equipment</button>
                 <button class="view-assign-equipment-btn">View Assigned Equipments</button>
             </div>
@@ -129,7 +129,7 @@ assignEquipmentBtns.forEach(assignEquipmentBtn => {
     assignEquipmentBtn.addEventListener("click", (e)=> {
         const current = e.target as HTMLElement;
         const mainParent = current.parentElement.parentElement;
-        const id = mainParent.querySelector(".table-data").innerHTML;
+        const id = mainParent.querySelector("#employeeID").innerHTML;
         hiddenEmployeeIdInput.value = id;
         assignEquipmentPopup.style.display = "block";
     })
@@ -198,7 +198,7 @@ viewAssignEquipmentsBtns.forEach(viewAssignEquipmentsBtn => {
         viewAssignEquipmentPopupBoy.innerHTML = "";
         const current = e.target as HTMLElement;
         const mainParent = current.parentElement.parentElement;
-        const employeeId = +mainParent.querySelector(".table-data").innerHTML;
+        const employeeId = +mainParent.querySelector("#employeeID").innerHTML;
         const equipmentsAssigned = employeeEquipment[employeeId];
         viewAssignEquipmentPopup.style.display = "block";
         if(equipmentsAssigned){
@@ -264,9 +264,9 @@ function showEquipmentReport(){
     for(const id in equipments){
         equipmentContent.innerHTML += `
         <div class="equipment-table-row">
-            <div class="table-data">${id}</div>
-            <div class="table-data">${equipments[id].name}</div>
-            <div class="table-data">${equipments[id].quantity}</div>
+            <div>${id}</div>
+            <div>${equipments[id].name}</div>
+            <div>${equipments[id].quantity}</div>
         </div>
         `
     }
@@ -280,9 +280,9 @@ function showInStockReport(){
         {
             equipmentContent.innerHTML += `
             <div class="equipment-table-row">
-                <div class="table-data">${id}</div>
-                <div class="table-data">${equipments[id].name}</div>
-                <div class="table-data">${equipments[id].quantity}</div>
+                <div>${id}</div>
+                <div>${equipments[id].name}</div>
+                <div>${equipments[id].quantity}</div>
             </div>
             `;
         }
@@ -320,12 +320,12 @@ function showFutureStockReport(){
     for(const id in futureStock){
         content.innerHTML += `
             <div class="table-row">
-                <div class="table-data">${id}</div>
-                <div class="table-data">${futureStock[id].name}</div>
-                <div class="table-data">${futureStock[id].quantity}</div>
-                <div class="table-data">${futureStock[id].orderDate.toLocaleDateString()}</div>
-                <div class="table-data">${futureStock[id].shipmentDate.toLocaleDateString()}</div>
-                <div class="table-data">
+                <div>${id}</div>
+                <div>${futureStock[id].name}</div>
+                <div>${futureStock[id].quantity}</div>
+                <div>${futureStock[id].orderDate.toLocaleDateString()}</div>
+                <div>${futureStock[id].shipmentDate.toLocaleDateString()}</div>
+                <div>
                     ${
                       (Math.ceil((futureStock[id].shipmentDate.getTime() - new Date().getTime()) / (1000 * 3600 * 24)))
                     } days
