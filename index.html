@@ -44,6 +44,7 @@
                 <div>Equipment Id</div>
                 <div>Equipment Name</div>
                 <div>Equipment Quantity</div>
+                <div>Date Assigned</div>
             </div>
             <div class="popup-body"></div>
         </div>
@@ -78,6 +79,18 @@
     </div>
     <div id="generate-report" class="generate-report">
         <h1 class="section-title">Generate report</h1>
+        <div class="report-wrapper">
+            <form class="report-type-form">
+                <label for="reportType">Select a report type</label>
+                <select name="reportType" id="reportType">
+                    <option value="">--SELECT A REPORT TYPE--</option>
+                    <option value="equipmentReport">Equipment details</option>
+                    <option value="inStockReport">Current in stock report</option>
+                    <option value="futureStockReport">Future stock report</option>
+                </select>
+            </form>
+            <div id="report-section"></div>
+        </div>
     </div>
     <script src="javascript/main.js"></script>
 </body>

@@ -20,16 +20,44 @@ let employees = [{
 let equipments = {
     1: {
         name: "Desktop PC",
-        quantity: 100
+        quantity: 100,
     },
     2: {
         name: "Laptop",
-        quantity: 50
+        quantity: 0,
     },
     3: {
         name: "Mouse",
         quantity: 100
+    },
+    4: {
+        name: "Headset",
+        quantity: 0
+    },
+    5: {
+        name: "Docking station",
+        quantity: 100
     }
+};
+let futureStock = {
+    1: {
+        name: "Laptop P1",
+        quantity: 100,
+        orderDate: new Date("06/29/2021"),
+        shipmentDate: new Date("12/25/2021")
+    },
+    2: {
+        name: "Monitor",
+        quantity: 50,
+        orderDate: new Date("08/15/2021"),
+        shipmentDate: new Date("10/30/2021")
+    },
+    3: {
+        name: "Keyboard",
+        quantity: 75,
+        orderDate: new Date("09/05/2021"),
+        shipmentDate: new Date("10/25/2021")
+    },
 };
 let employeeEquipment = {};
 const assignEquipmentEl = document.querySelector("#assign-stock");
@@ -93,9 +121,11 @@ assignEquipmentBtns.forEach(assignEquipmentBtn => {
 const equipmentsDropdown = document.querySelector("#equipment-select");
 const closeAssignEquipmentPopup = document.querySelector(".close");
 for (const equipmentId in equipments) {
-    equipmentsDropdown.innerHTML += `
+    if (equipments[equipmentId].quantity > 0) {
+        equipmentsDropdown.innerHTML += `
         <option value=${equipmentId}>${equipments[equipmentId].name}</option>
     `;
+    }
 }
 closeAssignEquipmentPopup.addEventListener("click", () => {
     assignEquipmentPopup.style.display = "none";
@@ -124,11 +154,11 @@ assignEquipmentForm.addEventListener("submit", (e) => {
         equipments[equipmentId].quantity -= equipmentQuantity;
         if (employeeEquipment[employeeId]) {
             if (employeeEquipment[employeeId].get(equipmentId)) {
-                employeeEquipment[employeeId].set(equipmentId, equipmentQuantity);
+                employeeEquipment[employeeId].set(equipmentId, { equipmentQuantity, dateAssigned: new Date().toLocaleDateString() });
             }
         }
         else {
-            employeeEquipment[employeeId] = new Map().set(equipmentId, equipmentQuantity);
+            employeeEquipment[employeeId] = new Map().set(equipmentId, { equipmentQuantity, dateAssigned: new Date().toLocaleDateString() });
         }
         assignEquipmentPopup.style.display = "none";
         equipmentsDropdown.value = "";
@@ -152,7 +182,8 @@ viewAssignEquipmentsBtns.forEach(viewAssignEquipmentsBtn => {
                 viewAssignEquipmentPopupBoy.innerHTML += `
                 <div>${key}</div>
                 <div>${equipments[key].name}</div>
-                <div>${value}</div>
+                <div>${value.equipmentQuantity}</div>
+                <div>${value.dateAssigned}</div>
                 `;
             });
         }
@@ -161,3 +192,108 @@ viewAssignEquipmentsBtns.forEach(viewAssignEquipmentsBtn => {
 closeViewAssignEquipmentPopup.addEventListener("click", () => {
     viewAssignEquipmentPopup.style.display = "none";
 });
+const reportTypeSelect = document.querySelector("#reportType");
+const reportSection = document.querySelector("#report-section");
+reportTypeSelect.addEventListener("change", (e) => {
+    const target = e.target;
+    const value = target.value;
+    switch (value) {
+        case "equipmentReport":
+            showEquipmentReport();
+            break;
+        case "inStockReport":
+            showInStockReport();
+            break;
+        case "futureStockReport":
+            showFutureStockReport();
+            break;
+        default:
+            reportSection.innerHTML = "";
+            break;
+    }
+});
+const equipmentTableTemplate = `
+<div class="table">
+<div class="equipment-report-table-header">
+    <div class="header-item">
+        <p class="header-text">Equipment Id</p>
+    </div>
+    <div class="header-item">
+        <p class="header-text">Equipment Name</p>
+    </div>
+    <div class="header-item">
+        <p class="header-text">Quantity</p>
+    </div>
+</div>
+<div id="equipment-content" class="table-content"></div>
+</div>`;
+function showEquipmentReport() {
+    reportSection.innerHTML = equipmentTableTemplate;
+    const equipmentContent = document.querySelector("#equipment-content");
+    for (const id in equipments) {
+        equipmentContent.innerHTML += `
+        <div class="equipment-table-row">
+            <div class="table-data">${id}</div>
+            <div class="table-data">${equipments[id].name}</div>
+            <div class="table-data">${equipments[id].quantity}</div>
+        </div>
+        `;
+    }
+}
+function showInStockReport() {
+    reportSection.innerHTML = equipmentTableTemplate;
+    const equipmentContent = document.querySelector("#equipment-content");
+    for (const id in equipments) {
+        if (equipments[id].quantity > 0) {
+            equipmentContent.innerHTML += `
+            <div class="equipment-table-row">
+                <div class="table-data">${id}</div>
+                <div class="table-data">${equipments[id].name}</div>
+                <div class="table-data">${equipments[id].quantity}</div>
+            </div>
+            `;
+        }
+    }
+}
+function showFutureStockReport() {
+    reportSection.innerHTML = `
+        <div class="table">
+            <div class="table-header">
+                <div class="header-item">
+                    <p class="header-text">Equipment Id</p>
+                </div>
+                <div class="header-item">
+                    <p class="header-text">Equipment Name</p>
+                </div>
+                <div class="header-item">
+                    <p class="header-text">Quantity</p>
+                </div>
+                <div class="header-item">
+                    <p class="header-text">Order Date</p>
+                </div>                
+                <div class="header-item">
+                    <p class="header-text">Shipment Date</p>
+                </div>
+                <div class="header-item">
+                    <p class="header-text">Arrives In</p>
+                </div>                
+            </div>
+            <div id="equipment-content" class="table-content"></div>
+        </div>
+    `;
+    const content = document.querySelector("#equipment-content");
+    for (const id in futureStock) {
+        content.innerHTML += `
+            <div class="table-row">
+                <div class="table-data">${id}</div>
+                <div class="table-data">${futureStock[id].name}</div>
+                <div class="table-data">${futureStock[id].quantity}</div>
+                <div class="table-data">${futureStock[id].orderDate.toLocaleDateString()}</div>
+                <div class="table-data">${futureStock[id].shipmentDate.toLocaleDateString()}</div>
+                <div class="table-data">
+                    ${(Math.ceil((futureStock[id].shipmentDate.getTime() - new Date().getTime()) / (1000 * 3600 * 24)))} days
+                </div>
+            </div>
+        `;
+    }
+}
