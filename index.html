@@ -17,6 +17,38 @@
             </ul>
         </nav>
     </header>
+
+    <div class="assign-equipment-popup">
+        <div class="error"></div>
+        <form class="form-container">
+            <span class="close">&times;</span>
+            <h1>Assign Equipment</h1>
+            <input type="hidden" name="employeeId" id="employeeId">
+            <label for="equipment-select">Select equipment</label>
+            <select name="equipment-select" id="equipment-select">
+                <option value="">--SELECT AN OPTION--</option>
+            </select>
+            <label for="equipment-quantity">Quantity</label>
+            <input type="number" name="equipment-quantity" id="equipment-quantity">
+            <button type="submit">
+                Assign equipments
+            </button>
+        </form>
+    </div>
+
+    <div class="view-assign-equipment-popup">
+        <div class="popup-wrapper">
+            <span id="close-view-assign-equipment-popup" class="close">&times;</span>
+            <h1>Assigned Equipments</h1>
+            <div class="popup-header">
+                <div>Equipment Id</div>
+                <div>Equipment Name</div>
+                <div>Equipment Quantity</div>
+            </div>
+            <div class="popup-body"></div>
+        </div>
+    </div>
+
     <div id="assign-stock" class="assign-stock">
         <h1 class="section-title">Assign equipment</h1>
         <div class="container">

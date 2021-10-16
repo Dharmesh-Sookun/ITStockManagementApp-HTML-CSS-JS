@@ -78,3 +78,86 @@ employees.forEach(employee => {
         </div>
     `;
 });
+const assignEquipmentBtns = document.querySelectorAll(".assign-equipment-btn");
+const assignEquipmentPopup = document.querySelector(".assign-equipment-popup");
+const hiddenEmployeeIdInput = document.querySelector("#employeeId");
+assignEquipmentBtns.forEach(assignEquipmentBtn => {
+    assignEquipmentBtn.addEventListener("click", (e) => {
+        const current = e.target;
+        const mainParent = current.parentElement.parentElement;
+        const id = mainParent.querySelector(".table-data").innerHTML;
+        hiddenEmployeeIdInput.value = id;
+        assignEquipmentPopup.style.display = "block";
+    });
+});
+const equipmentsDropdown = document.querySelector("#equipment-select");
+const closeAssignEquipmentPopup = document.querySelector(".close");
+for (const equipmentId in equipments) {
+    equipmentsDropdown.innerHTML += `
+        <option value=${equipmentId}>${equipments[equipmentId].name}</option>
+    `;
+}
+closeAssignEquipmentPopup.addEventListener("click", () => {
+    assignEquipmentPopup.style.display = "none";
+});
+const assignEquipmentForm = document.querySelector(".form-container");
+const equipmentQuantityInput = document.querySelector("#equipment-quantity");
+const errorMessageEl = document.querySelector(".error");
+assignEquipmentForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const equipmentId = +equipmentsDropdown.value;
+    const equipmentQuantity = +equipmentQuantityInput.value;
+    const employeeId = +hiddenEmployeeIdInput.value;
+    if (equipmentId == 0) {
+        errorMessageEl.innerHTML = "Please select an equipment";
+        errorMessageEl.style.display = "block";
+    }
+    if (equipmentQuantity <= 0) {
+        errorMessageEl.innerHTML = "Quantity must be greater than 0";
+        errorMessageEl.style.display = "block";
+    }
+    else if (equipments[equipmentId] && equipmentQuantity > equipments[equipmentId].quantity) {
+        errorMessageEl.innerHTML = `The number of ${equipments[equipmentId].name} currently in stock is ${equipments[equipmentId].quantity}`;
+        errorMessageEl.style.display = "block";
+    }
+    else {
+        equipments[equipmentId].quantity -= equipmentQuantity;
+        if (employeeEquipment[employeeId]) {
+            if (employeeEquipment[employeeId].get(equipmentId)) {
+                employeeEquipment[employeeId].set(equipmentId, equipmentQuantity);
+            }
+        }
+        else {
+            employeeEquipment[employeeId] = new Map().set(equipmentId, equipmentQuantity);
+        }
+        assignEquipmentPopup.style.display = "none";
+        equipmentsDropdown.value = "";
+        equipmentQuantityInput.value = "";
+    }
+});
+const viewAssignEquipmentsBtns = document.querySelectorAll(".view-assign-equipment-btn");
+const viewAssignEquipmentPopup = document.querySelector(".view-assign-equipment-popup");
+const viewAssignEquipmentPopupBoy = document.querySelector(".popup-body");
+const closeViewAssignEquipmentPopup = document.querySelector("#close-view-assign-equipment-popup");
+viewAssignEquipmentsBtns.forEach(viewAssignEquipmentsBtn => {
+    viewAssignEquipmentsBtn.addEventListener("click", (e) => {
+        viewAssignEquipmentPopupBoy.innerHTML = "";
+        const current = e.target;
+        const mainParent = current.parentElement.parentElement;
+        const employeeId = +mainParent.querySelector(".table-data").innerHTML;
+        const equipmentsAssigned = employeeEquipment[employeeId];
+        viewAssignEquipmentPopup.style.display = "block";
+        if (equipmentsAssigned) {
+            equipmentsAssigned.forEach((value, key) => {
+                viewAssignEquipmentPopupBoy.innerHTML += `
+                <div>${key}</div>
+                <div>${equipments[key].name}</div>
+                <div>${value}</div>
+                `;
+            });
+        }
+    });
+});
+closeViewAssignEquipmentPopup.addEventListener("click", () => {
+    viewAssignEquipmentPopup.style.display = "none";
+});
