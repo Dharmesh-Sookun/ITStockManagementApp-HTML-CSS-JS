@@ -23,9 +23,12 @@ a {
 
 .header {
   height: 64px;
-  background-color: var(--secondary-colour); }
+  background-color: var(--secondary-colour);
+  display: flex;
+  flex-direction: column;
+  justify-content: center; }
   .header nav {
-    padding: 10px;
+    padding: 0 10px;
     display: flex;
     align-items: center;
     justify-content: space-between; }
@@ -118,7 +121,7 @@ a {
 .view-assign-equipment-popup {
   bottom: 47%;
   right: 28%;
-  width: 45vw; }
+  min-width: 45vw; }
 
 .form-container,
 .popup-wrapper {
@@ -214,3 +217,40 @@ a {
   grid-template-columns: 1fr 1fr 1fr;
   width: 100%;
   padding: 36px 18px; }
+
+@media screen and (max-width: 1478px) {
+  .assign-actions button {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px; }
+  .assign-equipment-btn,
+  .view-assign-equipment-btn {
+    padding: 10px;
+    margin: 10px;
+    font-size: 0.8rem; } }
+
+@media screen and (max-width: 1400px) {
+  .assign-equipment-popup {
+    bottom: 23%;
+    right: 18%; }
+  .view-assign-equipment-popup {
+    bottom: 35%;
+    right: 16%; } }
+
+@media screen and (max-width: 1200px) {
+  .assign-equipment-popup {
+    width: 60%; } }
+
+@media screen and (max-width: 1000px) {
+  .form-container h1 {
+    font-size: 1.2rem; } }
+
+@media screen and (max-width: 900px) {
+  .view-assign-equipment-popup {
+    bottom: 35%;
+    right: 12%; } }
+
+@media screen and (max-width: 700px) {
+  .header nav {
+    flex-direction: column; } }

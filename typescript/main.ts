@@ -113,7 +113,7 @@ employees.forEach(employee => {
             <div>${employee.middleName}</div>
             <div>${employee.lastName}</div>
             <div>${employee.address}</div>
-            <div>
+            <div class="assign-actions">
                 <button class="assign-equipment-btn">Assign Equipment</button>
                 <button class="view-assign-equipment-btn">View Assigned Equipments</button>
             </div>
@@ -173,12 +173,19 @@ assignEquipmentForm.addEventListener("submit", (e) => {
         errorMessageEl.style.display = "block";
     }else {
         equipments[equipmentId].quantity -= equipmentQuantity;
+        // if(employeeEquipment[employeeId]){
+        //     if(employeeEquipment[employeeId].get(equipmentId)){
+        //         employeeEquipment[employeeId].set(equipmentId, { equipmentQuantity, dateAssigned: new Date().toLocaleDateString()});
+        //     }
+        // }else{
+        //     employeeEquipment[employeeId] = new Map().set(equipmentId, { equipmentQuantity, dateAssigned: new Date().toLocaleDateString()});
+        // }
+
+
         if(employeeEquipment[employeeId]){
-            if(employeeEquipment[employeeId].get(equipmentId)){
-                employeeEquipment[employeeId].set(equipmentId, { equipmentQuantity, dateAssigned: new Date().toLocaleDateString()});
-            }
+            employeeEquipment[employeeId] = [...employeeEquipment[employeeId], [equipmentId, equipmentQuantity, new Date()]];
         }else{
-            employeeEquipment[employeeId] = new Map().set(equipmentId, { equipmentQuantity, dateAssigned: new Date().toLocaleDateString()});
+            employeeEquipment[employeeId] = [[equipmentId, equipmentQuantity, new Date()]];
         }
 
         assignEquipmentPopup.style.display = "none";
@@ -202,14 +209,23 @@ viewAssignEquipmentsBtns.forEach(viewAssignEquipmentsBtn => {
         const equipmentsAssigned = employeeEquipment[employeeId];
         viewAssignEquipmentPopup.style.display = "block";
         if(equipmentsAssigned){
-            equipmentsAssigned.forEach((value, key) => {
+            // equipmentsAssigned.forEach((value, key) => {
+            //     viewAssignEquipmentPopupBoy.innerHTML += `
+            //     <div>${key}</div>
+            //     <div>${equipments[key].name}</div>
+            //     <div>${value.equipmentQuantity}</div>
+            //     <div>${value.dateAssigned}</div>
+            //     `;
+            // });
+            equipmentsAssigned.forEach(equipment => {
                 viewAssignEquipmentPopupBoy.innerHTML += `
-                <div>${key}</div>
-                <div>${equipments[key].name}</div>
-                <div>${value.equipmentQuantity}</div>
-                <div>${value.dateAssigned}</div>
+                <div>${equipment[0]}</div>
+                <div>${equipments[equipment[0]].name}</div>
+                <div>${equipment[1]}</div>
+                <div>${equipment[2].toLocaleDateString()}</div>
                 `;
             });
+            
         }
     })
 });

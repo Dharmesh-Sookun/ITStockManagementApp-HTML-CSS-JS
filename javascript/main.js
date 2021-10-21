@@ -1,3 +1,12 @@
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 var employees = [{
         id: 1,
         firstName: "Dharmesh",
@@ -138,13 +147,18 @@ assignEquipmentForm.addEventListener("submit", function (e) {
     }
     else {
         equipments[equipmentId].quantity -= equipmentQuantity;
+        // if(employeeEquipment[employeeId]){
+        //     if(employeeEquipment[employeeId].get(equipmentId)){
+        //         employeeEquipment[employeeId].set(equipmentId, { equipmentQuantity, dateAssigned: new Date().toLocaleDateString()});
+        //     }
+        // }else{
+        //     employeeEquipment[employeeId] = new Map().set(equipmentId, { equipmentQuantity, dateAssigned: new Date().toLocaleDateString()});
+        // }
         if (employeeEquipment[employeeId]) {
-            if (employeeEquipment[employeeId].get(equipmentId)) {
-                employeeEquipment[employeeId].set(equipmentId, { equipmentQuantity: equipmentQuantity, dateAssigned: new Date().toLocaleDateString() });
-            }
+            employeeEquipment[employeeId] = __spreadArray(__spreadArray([], employeeEquipment[employeeId], true), [[equipmentId, equipmentQuantity, new Date()]], false);
         }
         else {
-            employeeEquipment[employeeId] = new Map().set(equipmentId, { equipmentQuantity: equipmentQuantity, dateAssigned: new Date().toLocaleDateString() });
+            employeeEquipment[employeeId] = [[equipmentId, equipmentQuantity, new Date()]];
         }
         assignEquipmentPopup.style.display = "none";
         equipmentsDropdown.value = "";
@@ -164,8 +178,16 @@ viewAssignEquipmentsBtns.forEach(function (viewAssignEquipmentsBtn) {
         var equipmentsAssigned = employeeEquipment[employeeId];
         viewAssignEquipmentPopup.style.display = "block";
         if (equipmentsAssigned) {
-            equipmentsAssigned.forEach(function (value, key) {
-                viewAssignEquipmentPopupBoy.innerHTML += "\n                <div>" + key + "</div>\n                <div>" + equipments[key].name + "</div>\n                <div>" + value.equipmentQuantity + "</div>\n                <div>" + value.dateAssigned + "</div>\n                ";
+            // equipmentsAssigned.forEach((value, key) => {
+            //     viewAssignEquipmentPopupBoy.innerHTML += `
+            //     <div>${key}</div>
+            //     <div>${equipments[key].name}</div>
+            //     <div>${value.equipmentQuantity}</div>
+            //     <div>${value.dateAssigned}</div>
+            //     `;
+            // });
+            equipmentsAssigned.forEach(function (equipment) {
+                viewAssignEquipmentPopupBoy.innerHTML += "\n                <div>" + equipment[0] + "</div>\n                <div>" + equipments[equipment[0]].name + "</div>\n                <div>" + equipment[1] + "</div>\n                <div>" + equipment[2].toLocaleDateString() + "</div>\n                ";
             });
         }
     });
