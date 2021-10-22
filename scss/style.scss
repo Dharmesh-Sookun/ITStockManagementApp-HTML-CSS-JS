@@ -14,7 +14,7 @@
 body {
   height: 100vh;
   width: 100vw;
-  overflow-x: hidden;
+  overflow: hidden;
   background-color: var(--primary-colour);
 }
 
@@ -150,8 +150,8 @@ a {
 }
 
 .assign-equipment-popup {
-  bottom: 30%;
-  right: 20%;
+  bottom: 40%;
+  right: 30%;
 }
 
 .view-assign-equipment-popup {
@@ -183,6 +183,10 @@ a {
 .form-container select:focus {
   background-color: #ddd;
   outline: none;
+}
+
+.form-container select:focus {
+  cursor: pointer;
 }
 
 .form-container button[type="submit"] {
